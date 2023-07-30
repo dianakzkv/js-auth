@@ -1,0 +1,17 @@
+@use '../../style' as s;
+
+.heading {
+  display: flex;
+	flex-direction: column;
+	gap: 16px
+}
+
+.heading__title {
+  font-size: 24px;
+	color: s.color(light);
+}
+
+.heading__info {
+  font-size: 16px;
+	color: s.color(light);
+}
