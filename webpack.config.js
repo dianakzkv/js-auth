@@ -11,7 +11,13 @@ function getJsEntries() {
       path.relative('./src', file),
     ) // Отримуємо шлях відносно папки './src'
 
-    const [folderType] = folderName.split('/')
+    let folderTypeArr = folderName.split('/')
+
+    if (folderTypeArr.length === 1) {
+      folderTypeArr = folderName.split('\\')
+    }
+
+    const [folderType] = folderTypeArr
 
     if (
       ['container', 'component', 'layout'].includes(
@@ -19,10 +25,10 @@ function getJsEntries() {
       )
     ) {
       entries[folderName] = `./${file}`
-
-      console.log(folderName)
     }
   })
+
+  console.log(entries)
 
   return entries
 }
