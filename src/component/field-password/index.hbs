@@ -1,0 +1,21 @@
+<div class='field field--password'>
+  <label
+    for='{{name}}'
+    class='field__label'
+  >{{label}}</label>
+
+  <div class='field__wrapper'>
+    <input
+      oninput='{{action}}(this.name, this.value)'
+      type='password'
+      class='field__input'
+      name='{{name}}'
+      value='{{value}}'
+      placeholder='{{placeholder}}'
+    />
+    <span
+      onclick='fieldPassword.toggle(this)'
+      class='field__icon'
+    ></span>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+@use '../../style' as s;
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: s.space(3);
+
+  &__label {
+    font-size: 16px;
+    color: s.color(grey);
+  }
+
+  &__input {
+    border: 1px solid s.color('box');
+    background-color: s.color('box');
+
+    padding: s.space(4);
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    &::placeholder {
+      color: s.color('light');
+    }
+
+    color: s.color('dark');
+
+    transition: border-color 0.3s;
+
+    &:hover {
+      border-color: s.color(gray);
+    }
+
+    &:focus {
+      border-color: s.color(main);
+    }
+
+    &--error {
+      border-color: s.color(red) !important;
+    }
+  }
+}
