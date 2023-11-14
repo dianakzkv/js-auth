@@ -8,40 +8,40 @@
 			<div class="form__item">
 				{{>field action='signupForm.change' name='email' type='email' label='Електронна адреса' placeholder='Ваш e-mail'}}
 
-				<span name="email" class="form__error">Такої ел. адреси не існує!</span>
+				<span name="email" class="form__error"></span>
 
 			</div>
 
 			<div class="form__item">
 				{{>field-select action='signupForm.change' name='role' label='Роль' placeholder='Оберіть роль' list=data.role}}
 
-				<span name="role" class="form__error">error</span>
+				<span name="role" class="form__error"></span>
 
 			</div>
 
 			<div class="form__item">
 				{{>field-password action='signupForm.change' name='password' type='password' label='Пароль' placeholder='Ваш пароль'}}
 
-				{{!-- <span name="email" class="form__error">Error</span> --}}
+				<span name="password" class="form__error"></span>
 
 			</div>
 
 			<div class="form__item">
-				{{>field-password action='signupForm.change' name='password' type='password' label='Пароль ще раз' placeholder='Ваш пароль'}}
+				{{>field-password action='signupForm.change' name='passwordAgain' type='password' label='Пароль ще раз' placeholder='Ваш пароль'}}
 
-				<span name="password" class="form__error">Увага, пароль не співпадає!</span>
+				<span name="passwordAgain" class="form__error"></span>
 
 			</div>
 
 			<div class="form__item">
-				{{>field-checkbox action='signupForm.change' name='isCornfirm' label='Ви погоджуєтесь з правилами сервіса'}}
+				{{>field-checkbox action='signupForm.change' name='isConfirm' label='Ви погоджуєтесь з правилами сервіса'}}
 
-				<span name="isCornfirm" class="form__error">Прийміть правила сервісу</span>
+				<span name="isConfirm" class="form__error"></span>
 			</div>
 		</div>
 
-		<button onclick="signupForm.submit()" class="button" type="button" >Зареєструватися</button>
+		<button onclick="signupForm.submit()" class="button button--disabled" type="button" >Зареєструватися</button>
 
-		<span class="alert alert--error">Увага, помилка!</span>
+		<span class="alert alert--disabled"></span>
 	</form>
 </div>
