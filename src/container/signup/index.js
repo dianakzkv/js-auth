@@ -83,7 +83,9 @@ class SignupForm extends Form {
       try {
         const res = await fetch('/signup', {
           method: 'POST',
-          headers: { 'Content-Type': 'aplication/json' },
+          headers: {
+            'Content-Type': 'application/json',
+          },
           body: this.convertData(),
         })
 

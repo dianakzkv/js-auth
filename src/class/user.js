@@ -30,6 +30,8 @@ class User {
   static create(data) {
     const user = new User(data)
 
+    console.log(this.user)
+
     this.#list.push(user)
 
     console.log(this.#list)

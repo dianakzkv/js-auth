@@ -1,7 +1,9 @@
 // Підключаємо технологію express для back-end сервера
 const express = require('express')
+// const bodyParser = require('body-parser')
 // Cтворюємо роутер - місце, куди ми підключаємо ендпоїнти
 const router = express.Router()
+// router.use(bodyParser.json())
 
 const { User } = require('../class/user')
 
@@ -55,14 +57,12 @@ router.get('/signup', function (req, res) {
 
 router.post('/signup', function (req, res) {
   const { email, password, role } = req.body
-
   console.log(req.body)
+  console.log('поля: ', email, password, role)
 
   if (!email || !password || !role) {
-    console.log(email, password, role)
-
     return res.status(400).json({
-      message: "Помилка. Обов'язкові поля відсутні!",
+      message: `Помилка. Обов'язкові поля відсутні! ${req.body.email} ${req.body.password} ${req.body.role}`,
     })
   }
 
