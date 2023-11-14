@@ -1,0 +1,19 @@
+<div class="page page--background">
+	<header>{{>back-button}}</header>
+
+	<form class="page__section">
+		<h1 class="page__title">Відновлення паролю</h1>
+
+		<div class="form">
+			<div class="form__item">
+				{{>field action='recoveryForm.change' name='email' type='email' label='Електронна адреса' placeholder='Ваш e-mail'}}
+
+				<span name="email" class="form__error"></span>
+			</div>
+		</div>
+
+		<button onclick="recoveryForm.submit()" class="button button--disabled" name="button" type="button" >Отримати код</button>
+
+		<span class="alert alert--disabled"></span>
+	</form>
+</div>
