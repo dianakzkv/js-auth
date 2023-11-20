@@ -4,7 +4,6 @@ class Confirm {
   constructor(data) {
     this.code = Confirm.generateCode()
     this.data = data
-    console.log(this.code)
   }
 
   static generateCode = () => {

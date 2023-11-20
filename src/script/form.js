@@ -65,6 +65,7 @@ export class Form {
         this.value[name] === undefined
       ) {
         disabled = true
+        console.log(this.error[name], this.value[name])
       }
     })
 

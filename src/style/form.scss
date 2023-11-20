@@ -77,3 +77,13 @@
     border-color: s.color(red) !important;
   }
 }
+
+.link {
+	color: s.color(main);
+	text-decoration: none;
+	@include s.click;
+  
+	&__prefix {
+	  color: s.color(light);
+	}
+  }

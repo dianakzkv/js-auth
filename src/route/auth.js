@@ -7,10 +7,11 @@ const router = express.Router()
 
 const { User } = require('../class/user')
 const { Confirm } = require('../class/confirm')
+const { Session } = require('../class/session')
 
 User.create({
   email: 'test@gmail.com',
-  password: 123,
+  password: '123qweQWE',
   role: 1,
 })
 // ================================================================
@@ -76,10 +77,17 @@ router.post('/signup', function (req, res) {
       })
     }
 
-    User.create({ email, password, role })
+    const newUser = User.create({ email, password, role })
+    console.log('newUser : ', newUser)
+
+    const session = Session.create(newUser)
+    console.log('session : ', session)
+
+    Confirm.create(newUser.email)
 
     return res.status(200).json({
       message: 'Користувач успішно зареєстрований',
+      session,
     })
   } catch (err) {
     return res.status(400).json({
@@ -99,7 +107,7 @@ router.get('/recovery', function (req, res) {
 
 router.post('/recovery', function (req, res) {
   const { email } = req.body
-  console.log(email)
+  console.log('recovery-email : ', email)
 
   if (!email) {
     return res.status(400).json({
@@ -109,7 +117,7 @@ router.post('/recovery', function (req, res) {
 
   try {
     const user = User.getByEmail(email)
-    console.log(user)
+    console.log('User.getByEmail(email): ', user)
 
     if (!user) {
       return res.status(400).json({
@@ -140,7 +148,11 @@ router.get('/recovery-confirm', function (req, res) {
 
 router.post('/recovery-confirm', function (req, res) {
   const { password, code } = req.body
-  console.log(password, code)
+  console.log(
+    'recovery-confirm passw & code : ',
+    password,
+    code,
+  )
 
   if (!code || !password) {
     return res.status(400).json({
@@ -167,11 +179,122 @@ router.post('/recovery-confirm', function (req, res) {
 
     user.password = password
 
-    console.log(user)
+    console.log('change password for user : ', user)
+
+    const session = Session.create(user)
 
     return res.status(200).json({
       message: 'Пароль змінено',
+      session,
     })
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message,
+    })
+  }
+})
+
+router.get('/signup-confirm', function (req, res) {
+  const { renew, email } = req.query
+
+  if (renew) {
+    Confirm.create(email)
+  }
+  return res.render('signup-confirm', {
+    name: 'signup-confirm',
+    component: ['back-button', 'field'],
+    title: 'Signup confirm page',
+    data: {},
+  })
+})
+
+router.post('/signup-confirm', function (req, res) {
+  const { code, token } = req.body
+
+  if (!code || !token) {
+    return res.status(400).json({
+      message: "Помилка. Обов'язкові поля відсутні",
+    })
+  }
+  console.log(code, token)
+
+  try {
+    const session = Session.get(token)
+
+    if (!session) {
+      return res.status(400).json({
+        message: 'Помилка. Ви не увійшли в аккаунт',
+      })
+    }
+
+    const email = Confirm.getData(code)
+
+    if (!email) {
+      return res.status(400).json({
+        message: 'Код не існує',
+      })
+    }
+
+    if (email !== session.user.email) {
+      return res.status(400).json({
+        message: 'Код не дійсний',
+      })
+    }
+
+    const user = User.getByEmail(session.user.email)
+    user.isConfirmByCode = true
+
+    session.user.isConfirmByCode = true
+
+    return res.status(200).json({
+      message: 'Ви підтвердили свою пошту',
+      session,
+    })
+  } catch (error) {
+    return res.status(400).json({ message: error.message })
+  }
+})
+
+router.get('/login', function (req, res) {
+  return res.render('login', {
+    name: 'login',
+    component: ['back-button', 'field', 'field-password'],
+    title: 'Login page',
+    data: {},
+  })
+})
+
+router.post('/login', function (req, res) {
+  const { email, password } = req.body
+  console.log(email, password)
+
+  if (!email || !password) {
+    return res.status(400).json({
+      message: "Помилка. Обов'язкові поля відсутні",
+    })
+  }
+
+  try {
+    const user = User.getByEmail(email)
+
+    if (!user) {
+      return res.status(400).json({
+        message:
+          'Помилка. Користувач з таким email не існує!',
+      })
+    }
+
+    if (password !== user.password) {
+      return res.status(400).json({
+        message: 'Помилка. Невірний пароль',
+      })
+    }
+
+    const session = Session.create(user)
+
+    return res
+      .status(200)
+      .json({ message: 'Ви увійшли', session })
   } catch (error) {
     return res.status(400).json({
       message: error.message,

@@ -1,0 +1,28 @@
+<div class="page page--background">
+	<header>{{>back-button}}</header>
+
+	<form class="page__section">
+		<h1 class="page__title">Вхід</h1>
+
+		<div class="form">
+			<div class="form__item">
+				{{>field action='loginForm.change' name='email' type='email' label='Електронна адреса' placeholder='Ваш e-mail'}}
+
+				<span name="email" class="form__error"></span>
+			</div>
+
+			<div class="form__item">
+				{{>field-password action='loginForm.change' name='password' type='password' label='Пароль' placeholder='Ваш пароль'}}
+
+				<span name="password" class="form__error"></span>
+			</div>
+		</div>
+
+		<button onclick="loginForm.submit()" class="button button--disabled" name="button" type="button" >Увійти</button>
+		
+		<span class="alert alert--disabled"></span>
+
+		<span class="link__prefix">Забули пароль? <a href="/recovery" class="link">Відновити пароль</a></span>
+
+	</form>
+</div>

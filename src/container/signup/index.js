@@ -4,6 +4,8 @@ import {
   REG_EXP_PASSWORD,
 } from '../../script/form'
 
+import { saveSession } from '../../script/session'
+
 class SignupForm extends Form {
   FIELD_NAME = {
     EMAIL: 'email',
@@ -77,7 +79,7 @@ class SignupForm extends Form {
     if (this.disabled === true) {
       this.validateAll()
     } else {
-      console.log(this.value)
+      console.log('submit this.value : ', this.value)
 
       this.setAlert('progress', 'Завантаження...')
 
@@ -91,14 +93,19 @@ class SignupForm extends Form {
         })
 
         const data = await res.json()
+        console.log('signup/ data.:  ', data)
+        console.log('signup/ data.session:  ', data.session)
 
         if (res.ok) {
           this.setAlert('success', data.message)
+          saveSession(data.session)
+          location.assign('/')
         } else {
           this.setAlert('error', data.message)
           console.log(data)
         }
       } catch (error) {
+        console.log(error.message)
         this.setAlert('error', error.message)
       }
     }
