@@ -10,10 +10,21 @@ const { Confirm } = require('../class/confirm')
 const { Session } = require('../class/session')
 
 User.create({
-  email: 'test@gmail.com',
+  email: 'user@gmail.com',
   password: '123qweQWE',
   role: 1,
 })
+User.create({
+  email: 'admin@mail.com',
+  password: 123,
+  role: 2,
+})
+User.create({
+  email: 'developer@mail.com',
+  password: 123,
+  role: 3,
+})
+
 // ================================================================
 
 // router.get Створює нам один ентпоїнт
@@ -23,7 +34,7 @@ router.get('/signup', function (req, res) {
   // res.render генерує нам HTML сторінку
 
   // ↙️ cюди вводимо назву файлу з сontainer
-  res.render('signup', {
+  return res.render('signup', {
     // вказуємо назву контейнера
     name: 'signup',
     // вказуємо назву компонентів
